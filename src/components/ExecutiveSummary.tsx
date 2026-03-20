@@ -1,10 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import { Lightbulb, Target, Users, MapPin, AlertTriangle, ShieldAlert, Ban, Pill, Smartphone, Scale, Home as HomeIcon } from "lucide-react";
+import { Lightbulb, Target, Users, MapPin, AlertTriangle, ShieldAlert, Ban, Pill, Smartphone, Scale, Home as HomeIcon, RefreshCw } from "lucide-react";
 
 export function ExecutiveSummary() {
-  const [activeTab, setActiveTab] = useState<"insights" | "policy">("insights");
+  const [activeTab, setActiveTab] = useState<"insights" | "policy" | "kpi-loop">("insights");
 
   return (
     <div className="bg-slate-900/80 rounded-xl border border-slate-800 mt-8 text-slate-300 overflow-hidden shadow-lg backdrop-blur-sm">
@@ -19,37 +19,50 @@ export function ExecutiveSummary() {
       </div>
 
       {/* Tabs Navigation */}
-      <div className="flex border-b border-slate-800 px-6 md:px-8 pt-4">
+      <div className="flex border-b border-slate-800 px-6 md:px-8 pt-4 overflow-x-auto">
+
         <button
           onClick={() => setActiveTab("insights")}
-          className={`flex items-center gap-2 pb-4 px-4 text-sm font-bold border-b-2 transition-colors ${
+          className={`flex items-center gap-2 pb-4 px-4 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
             activeTab === "insights"
               ? "border-indigo-500 text-indigo-400"
               : "border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-600"
           }`}
         >
           <Lightbulb className="w-4 h-4" />
-          ส่วนที่ 1: สรุปข้อมูลเชิงลึก (Core Insights)
+          สรุปข้อมูลเชิงลึก (Core Insights)
         </button>
         <button
           onClick={() => setActiveTab("policy")}
-          className={`flex items-center gap-2 pb-4 px-4 text-sm font-bold border-b-2 transition-colors ${
+          className={`flex items-center gap-2 pb-4 px-4 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
             activeTab === "policy"
               ? "border-rose-500 text-rose-400"
               : "border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-600"
           }`}
         >
           <Target className="w-4 h-4" />
-          ส่วนที่ 2: 5 นโยบายเร่งด่วน (Actionable Policy)
+          5 นโยบายเร่งด่วน (Actionable Policy)
+        </button>
+        <button
+          onClick={() => setActiveTab("kpi-loop")}
+          className={`flex items-center gap-2 pb-4 px-4 text-sm font-bold border-b-2 transition-colors whitespace-nowrap ${
+            activeTab === "kpi-loop"
+              ? "border-emerald-500 text-emerald-400"
+              : "border-transparent text-slate-500 hover:text-slate-300 hover:border-slate-600"
+          }`}
+        >
+          <RefreshCw className="w-4 h-4" />
+          Closing the KPI Loop
         </button>
       </div>
 
       {/* Tab Content */}
       <div className="p-6 md:p-8 bg-slate-950/30">
+
         {activeTab === "insights" && (
           <div className="space-y-6 animate-in fade-in duration-300">
             <div className="bg-amber-950/30 border border-amber-900/50 text-amber-300/90 rounded-lg p-4 text-sm">
-              <em>⚠️ <strong>ข้อสังเกตสำคัญ (Data Limitation):</strong> สถิติ 877 เคสนี้เป็นเพียง &quot;ยอดภูเขาน้ำแข็ง&quot; (The Dark Figure of Crime) เนื่องจากสังคมไทยยังถูกพันธนาการด้วยมายาคติ <strong>&quot;เรื่องของผัวเมียคนนอกไม่ควรเสือก&quot;</strong> ทำให้เหยื่อถูกทิ้งให้อยู่กับผู้กระทำเพียงลำพัง</em>
+              <em>⚠️ <strong>ข้อสังเกตสำคัญ (Data Limitation):</strong> สถิติ 877 เคสนี้เป็นเพียง &quot;ยอดภูเขาน้ำแข็ง&quot; (The Dark Figure of Crime) เนื่องจากสังคมไทยยังถูกพันธนาการด้วยมายาคติ <strong>&quot;เรื่องของผัวเมียคนนอกไม่ควรยุ่ง&quot;</strong> ทำให้เหยื่อถูกทิ้งให้อยู่กับผู้กระทำเพียงลำพัง</em>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -99,8 +112,8 @@ export function ExecutiveSummary() {
                   <li><strong>การพึ่งพามือที่สาม:</strong> ข้อมูลส่วนใหญ่มาจาก <strong>ตำรวจ, โรงพยาบาล และสายด่วน 1300</strong> ซึ่งมักเกิดขึ้นเมื่อเหตุการณ์บานปลายจนบาดเจ็บสาหัสแล้วเท่านั้น</li>
                 </ul>
               </div>
-            </div>
           </div>
+        </div>
         )}
 
         {activeTab === "policy" && (
@@ -161,18 +174,77 @@ export function ExecutiveSummary() {
                 </div>
                 <p className="text-sm font-semibold text-blue-400 mb-2 pl-[42px]">(พื้นที่หลบภัยอัจฉริยะ)</p>
                 <p className="text-sm text-slate-400 pl-[42px]"><strong>Action:</strong> จัดตั้ง Safe Zone ในชุมชนที่มีงบประมาณสนับสนุนร่วมกันระหว่าง <strong>&quot;ภาครัฐและเอกชน (CSR)&quot;</strong> โดยให้ผู้นำชุมชนหรืออาสาสมัครที่ผ่านการอบรมเป็นผู้ดูแลพื้นที่ เพื่อให้เหยื่อมีที่พักพิงฉุกเฉินใกล้บ้าน ไม่ต้องถูกส่งไปไกลจนขาดการติดต่อกับสังคมปกติ โดยพื้นที่นี้ต้องสแตนด์บายรับเหตุได้ทั้งช่วง <strong>บ่าย (ตจว.) และ ค่ำ (กทม.)</strong> ตามสถิติที่พบจริง</p>
-              </div>
             </div>
+          </div>
+        </div>
+        )}
 
-            <div className="mt-8 bg-slate-950 border border-slate-800 border-l-4 border-l-rose-500 text-slate-300 rounded-xl p-6 md:p-8 shadow-lg">
-              <h3 className="text-lg font-bold mb-4 text-white">🏁 บทสรุปส่งท้าย: &quot;เพราะความรุนแรงไม่ใช่เรื่องส่วนตัว&quot;</h3>
-              <blockquote className="border-l-4 border-slate-700 pl-4 py-2 italic text-slate-400">
-                <p className="mb-2">&quot;ข้อมูลสถิติ 877 เคสนี้ ไม่ใช่แค่ตัวเลขบนกราฟ แต่มันคือ <strong>&apos;เสียงตะโกนที่ไร้เสียง&apos;</strong> ของเหยื่อที่ถูกกักขังอยู่ในบ้าน ข้อมูลพิสูจน์แล้วว่าระบบตั้งรับแบบเดิมล้มเหลว เพราะเรามักจะไปถึงเมื่อสายเกินไป...</p>
-                <p>ข้อเสนอเชิงนโยบายทั้ง 5 ข้อนี้ จึงไม่ใช่แค่การแก้กฎหมาย แต่คือการ <strong>&apos;รื้อถอนวัฒนธรรมความเงียบ&apos;</strong> และสร้างระบบที่โปร่งใสพอที่จะทำให้พลเมืองดีกล้าขัดจังหวะความรุนแรง และทำให้เหยื่อมั่นใจว่ารัฐมีพื้นที่ปลอดภัยรออยู่จริง ไม่ว่าจะเป็นเวลาบ่ายหรือค่ำก็ตาม&quot;</p>
-              </blockquote>
+        {activeTab === "kpi-loop" && (
+          <div className="space-y-6 animate-in fade-in duration-300">
+            <p className="text-sm text-slate-400">
+              เพื่อให้สอดคล้องกับ <strong className="text-white">Executive Summary KPIs</strong> ที่เราได้กำหนดไว้ ข้อเสนอเชิงนโยบายทั้ง 5 ข้อนี้ ถูกออกแบบมาเพื่อ &quot;สกัดกั้น&quot; ปัญหาและขับเคลื่อนตัวเลข KPI อย่างเป็นเหตุเป็นผล ดังนี้:
+            </p>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5 hover:border-blue-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">🎯</span>
+                  <h3 className="font-bold text-white text-sm">KPI 1: ลดการเกิดเหตุซ้ำในพื้นที่เดิม <span className="text-slate-500">(จากฐาน 877 เคส)</span></h3>
+                </div>
+                <p className="text-sm text-slate-400">
+                  <strong className="text-slate-300">กลไก:</strong> สถิติ 877 เคส ส่วนหนึ่งคือ &quot;การกระทำผิดซ้ำ&quot; เพราะผู้ก่อเหตุได้ใจจากการไกล่เกลี่ย การใช้ <strong className="text-rose-400">นโยบายที่ 1 (Zero Tolerance)</strong> ควบคู่ <strong className="text-emerald-400">นโยบายที่ 4 (Legal Protection)</strong> จะแยกผู้กระทำออกทันที ลดตัวเลข &quot;Repeat Offender&quot; อย่างมีนัยสำคัญ
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5 hover:border-amber-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">🎯</span>
+                  <h3 className="font-bold text-white text-sm">KPI 2: ลดเคสใน Hotspot พื้นที่สีแดงเข้ม <span className="text-slate-500">(กทม.)</span></h3>
+                </div>
+                <p className="text-sm text-slate-400">
+                  <strong className="text-slate-300">กลไก:</strong> กทม. เป็นสังคมเมืองหนาแน่น เกิดเหตุช่วงค่ำ <strong className="text-indigo-400">นโยบายที่ 3 (Proactive Rescue)</strong> เปลี่ยนเพื่อนบ้านให้เป็น &quot;ตาสับปะรด&quot; ที่กล้าแจ้งเหตุ ผนวก <strong className="text-blue-400">นโยบายที่ 5 (Safe Haven)</strong> ดึงเหยื่อออกมาระหว่างคืน ตัดตอนก่อนลุกลาม
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5 hover:border-rose-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">🎯</span>
+                  <h3 className="font-bold text-white text-sm">KPI 3: ลดการเข้าถึงสารเสพติด/สุราในกลุ่มเสี่ยง</h3>
+                </div>
+                <p className="text-sm text-slate-400">
+                  <strong className="text-slate-300">กลไก:</strong> ตอบโจทย์ตรงจุดด้วย <strong className="text-amber-400">นโยบายที่ 2 (Targeted Suppression &amp; Alcohol Ban)</strong> การบังคับบำบัดและ Blacklist ห้ามขายแอลกอฮอล์แก่ผู้มีประวัติ คือการ &quot;ปิดสวิตช์&quot; ตัวเร่งปฏิกิริยา (Trigger) ก่อนที่สติจะถูกทำลาย
+                </p>
+              </div>
+
+              <div className="bg-slate-800/40 border border-slate-700/50 rounded-xl p-5 hover:border-emerald-500/30 transition-colors">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl">🎯</span>
+                  <h3 className="font-bold text-white text-sm">KPI 4: เพิ่มช่องทางเข้าถึงการช่วยเหลือ <span className="text-slate-500">(กลุ่มเปราะบาง)</span></h3>
+                </div>
+                <p className="text-sm text-slate-400">
+                  <strong className="text-slate-300">กลไก:</strong> เหยื่อแจ้งเหตุเองเพียง <strong className="text-rose-400">14.5%</strong> <strong className="text-indigo-400">นโยบายที่ 3 (Proactive Rescue)</strong> อุดรอยรั่วนี้ ทำให้กลุ่มเปราะบาง (หญิงและผู้สูงอายุ) เข้าถึงความช่วยเหลือผ่านการแจ้งของบุคคลที่สาม โดยพลเมืองดีก็ปลอดภัย
+                </p>
+              </div>
             </div>
           </div>
         )}
+      </div>
+
+      {/* Common Footer Conclusion */}
+      <div className="p-6 md:p-8 bg-slate-900/50 border-t border-slate-800">
+        <div className="bg-slate-950 border border-slate-800 border-l-4 border-l-rose-500 text-slate-300 rounded-xl p-6 md:p-8 shadow-lg">
+          <h3 className="text-lg font-bold mb-4 text-white flex items-center gap-2">
+            <span>🏁</span> บทสรุปส่งท้าย: &quot;เพราะความรุนแรงไม่ใช่เรื่องส่วนตัว&quot;
+          </h3>
+          <blockquote className="border-l-4 border-slate-700 pl-4 py-2 italic text-slate-400 leading-relaxed text-sm md:text-base">
+            <p className="mb-4">
+              &quot;ข้อมูลสถิติ 877 เคสนี้ ไม่ใช่แค่ตัวเลขบนกราฟ แต่มันคือ <strong className="text-white text-lg">&apos;เสียงตะโกนที่ไร้เสียง&apos;</strong> ของเหยื่อที่ถูกกักขังอยู่ในบ้าน ข้อมูลพิสูจน์แล้วว่าระบบตั้งรับแบบเดิมล้มเหลว เพราะเรามักจะไปถึงเมื่อสายเกินไป...
+            </p>
+            <p>
+              ข้อเสนอเชิงนโยบายทั้ง 5 ข้อนี้ จึงไม่ใช่แค่การแก้กฎหมาย แต่คือการ <strong className="text-white">&apos;รื้อถอนวัฒนธรรมความเงียบ&apos;</strong> และสร้างระบบที่โปร่งใสพอที่จะทำให้พลเมืองดีกล้าขัดจังหวะความรุนแรง และทำให้เหยื่อมั่นใจว่ารัฐมีพื้นที่ปลอดภัยรออยู่จริง ไม่ว่าจะเป็นเวลาบ่ายหรือค่ำก็ตาม&quot;
+            </p>
+          </blockquote>
+        </div>
       </div>
     </div>
   );
