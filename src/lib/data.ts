@@ -260,3 +260,25 @@ export function getRelationshipStats() {
     .sort((a, b) => b.count - a.count)
     .slice(0, 7); // Show top 7 relationships
 }
+
+export function getPeriodStats() {
+  const counts: Record<string, number> = {};
+  incidentsData.forEach((d) => {
+    const period = d.Period;
+    if (period && period !== "ไม่ระบุ") {
+      counts[period] = (counts[period] || 0) + 1;
+    }
+  });
+  
+  const total = incidentsData.length || 1;
+  const order = ["00:01 – 06:00", "06:01 – 12:00", "12:01 – 18:00", "18:01 – 00:00"];
+  
+  return order.map((name) => {
+    const count = counts[name] || 0;
+    return {
+      name,
+      count,
+      pct: Number(((count / total) * 100).toFixed(1)),
+    };
+  });
+}

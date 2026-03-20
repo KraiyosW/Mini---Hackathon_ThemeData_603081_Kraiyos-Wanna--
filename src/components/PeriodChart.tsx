@@ -1,6 +1,4 @@
-"use client";
-
-import { getFactorStats } from "@/lib/data";
+import { getPeriodStats } from "@/lib/data";
 import {
   BarChart,
   Bar,
@@ -12,45 +10,37 @@ import {
   Cell,
 } from "recharts";
 
-const GRADIENT_COLORS = [
-  "#1e3a8a", "#1e40af", "#1d4ed8", "#2563eb", "#3b82f6",
-  "#60a5fa", "#93c5fd", "#0284c7", "#0369a1", "#075985",
-];
+const COLORS = ["#f59e0b", "#d97706", "#b45309", "#78350f"];
 
-export function FactorsChart() {
-  const stats = getFactorStats();
+export function PeriodChart() {
+  const stats = getPeriodStats();
 
   return (
-    <div className="rounded-xl border border-slate-200 bg-white p-5">
+    <div className="rounded-xl border border-slate-200 bg-white p-5 flex flex-col">
       <h3 className="text-base font-bold text-slate-900 mb-1">
-        ปัจจัยที่เกี่ยวข้อง
+        ช่วงเวลาที่เกิดเหตุ
       </h3>
-      <p className="text-sm text-slate-600 mb-4">
-        ปัจจัยที่เกี่ยวข้องกับเหตุความรุนแรงในครอบครัว (เรียงจากมากไปน้อย)
-      </p>
-      <div className="h-[400px]">
+      <p className="text-sm text-slate-600 mb-4">จำแนกตามช่วงเวลาในแต่ละวัน</p>
+      <div className="h-[240px]">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart
             data={stats}
-            layout="vertical"
-            margin={{ top: 0, right: 30, left: 0, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: -20, bottom: 0 }}
           >
             <CartesianGrid
               strokeDasharray="3 3"
               stroke="#f1f5f9"
-              horizontal={false}
+              vertical={false}
             />
             <XAxis
-              type="number"
-              tick={{ fill: "#475569", fontSize: 13 }}
+              dataKey="name"
+              tick={{ fill: "#475569", fontSize: 11 }}
               axisLine={false}
               tickLine={false}
             />
             <YAxis
-              type="category"
-              dataKey="name"
-              tick={{ fill: "#475569", fontSize: 13 }}
-              width={130}
+              type="number"
+              tick={{ fill: "#475569", fontSize: 12 }}
               axisLine={false}
               tickLine={false}
             />
@@ -63,14 +53,15 @@ export function FactorsChart() {
                 fontSize: "12px",
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
               }}
+              cursor={{ fill: "#f8fafc" }}
               formatter={(value, _name, item) => [
                 `${value} เคส (${item?.payload?.pct ?? 0}%)`,
                 "จำนวน",
               ]}
             />
-            <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={22}>
+            <Bar dataKey="count" radius={[6, 6, 0, 0]} barSize={32}>
               {stats.map((_, index) => (
-                <Cell key={index} fill={GRADIENT_COLORS[index % GRADIENT_COLORS.length]} />
+                <Cell key={index} fill={COLORS[index % COLORS.length]} />
               ))}
             </Bar>
           </BarChart>

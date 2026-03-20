@@ -86,8 +86,7 @@ export function AgeDistributionChart() {
                 fontSize: "12px",
                 boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
               }}
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              formatter={(value: any, _name: any, item: any) => [
+              formatter={(value, _name, item) => [
                 `${value} เคส (${item?.payload?.pct ?? 0}%)`,
                 "จำนวน",
               ]}

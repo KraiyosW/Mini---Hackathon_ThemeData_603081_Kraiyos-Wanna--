@@ -8,6 +8,7 @@ import { RegionalChart } from "@/components/RegionalChart";
 import { ProvinceChart } from "@/components/ProvinceChart";
 import { SourceChart } from "@/components/SourceChart";
 import { RelationshipChart } from "@/components/RelationshipChart";
+import { PeriodChart } from "@/components/PeriodChart";
 
 // Dynamically import the map component to avoid SSR issues with react-simple-maps
 const ThailandMap = dynamic(
@@ -51,9 +52,10 @@ export function DashboardCharts() {
       </div>
 
       {/* Short Charts (240px height) */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
         <RegionalChart />
         <GenderChart />
+        <PeriodChart />
       </div>
     </>
   );
