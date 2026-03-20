@@ -264,7 +264,7 @@ export function getRelationshipStats() {
 export function getPeriodStats() {
   const counts: Record<string, number> = {};
   incidentsData.forEach((d) => {
-    const period = d.Period;
+    const period = String(d.Period);
     if (period && period !== "ไม่ระบุ") {
       counts[period] = (counts[period] || 0) + 1;
     }
@@ -282,3 +282,32 @@ export function getPeriodStats() {
     };
   });
 }
+
+export function getLocationPeriodStats() {
+  const periods = ["00:01 – 06:00", "06:01 – 12:00", "12:01 – 18:00", "18:01 – 00:00"];
+  
+  const localeSet = new Set<string>();
+  incidentsData.forEach((d) => {
+    const loc = String(d.Locale);
+    const period = String(d.Period);
+    if (loc && loc !== "ไม่ระบุ" && loc !== "undefined" && period && period !== "ไม่ระบุ" && period !== "undefined") {
+      localeSet.add(loc);
+    }
+  });
+  
+  const locales = Array.from(localeSet);
+
+  const data = periods.map((period) => {
+    const periodData = incidentsData.filter((d) => String(d.Period) === period);
+    const result: Record<string, string | number> = { period };
+    
+    locales.forEach((locale) => {
+      result[locale] = periodData.filter((d) => String(d.Locale) === locale).length;
+    });
+    
+    return result;
+  });
+
+  return { data, locales };
+}
+
