@@ -3,6 +3,7 @@ import { KpiCards } from "@/components/KpiCards";
 import { KeyInsights } from "@/components/KeyInsights";
 import { DashboardCharts } from "@/components/DashboardCharts";
 import { ExecutiveSummary } from "@/components/ExecutiveSummary";
+import { AIChat } from "@/components/AIChat";
 
 export default function Home() {
   return (
@@ -18,6 +19,8 @@ export default function Home() {
           </div>
         </div>
       </main>
+
+      <AIChat />
 
       {/* Footer */}
       <footer className="border-t border-slate-800/60 py-8 text-center text-slate-500 bg-slate-950/50">
